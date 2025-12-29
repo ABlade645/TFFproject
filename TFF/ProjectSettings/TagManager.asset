@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Slime
+  - Death
+  - Weapon
+  - JumpBoost
+  - pPos
+  - Ground
+  - Cursor
+  - Object
+  - Stone
+  - Lhand
+  - smolStone
+  - StoneDir
+  - Slam
+  - dirPos
+  - outOB
+  - SecretTrigger
+  - SecretCard
+  - Lock
+  - Boog
+  - Enemy
+  - OneWayPlatform
+  - bullet
+  - Explosion
+  - CheckPoint
+  - powerCore
+  - Trigger
+  - hitMark
+  - Sneka
+  - ghost1
+  - ghost2
+  - ghost3
+  - ghost4
+  - EnemyInstantiatior
+  - IK followPoint
+  - TemporaryZZTPos
+  - 002
+  - arrivePoint
+  - Island
+  - boat
+  - boatPos
+  - PoisonEnhancer
+  - Interractable
+  - FlimsyBoard
+  - EnemyCache
+  - ObjectCache
+  - EffectCache
+  - Astar
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Ground
+  - Water
+  - UI
+  - Enemy
+  - Player
+  - Cursor
+  - Lhand
+  - Stone
+  - JumpOR
+  - Clouds
+  - Bone
+  - Explosion
+  - PowerCore
+  - Trigger
+  - PostProcessing
+  - Breakable
+  - WorldShatter
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0

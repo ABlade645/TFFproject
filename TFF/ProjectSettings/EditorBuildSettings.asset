@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 622b274d70caa7042803e1a18d9adb23
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 0
+    path: Assets/Scenes/Underneath_1-1.unity
+    guid: dc0891a5c362ecd4b913f970c47eb933
+  - enabled: 1
+    path: Assets/Scenes/Secret1.unity
+    guid: c7bb24335896ee74babb9727d5dc64be
+  - enabled: 0
+    path: Assets/Scenes/ClimbTutorial.unity
+    guid: 2e3f75668d1a6354e9f8f259936ddd53
+  - enabled: 0
+    path: Assets/Scenes/Sandbox.unity
+    guid: 74e15e286dbe3eb49b693197dbc21c48
+  - enabled: 1
+    path: Assets/Scenes/Endless.unity
+    guid: baa2c58b4958c6745beb1f5bb1e2f676
+  m_configObjects: {}
