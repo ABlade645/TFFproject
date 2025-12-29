@@ -3,10 +3,16 @@ using System.Collections.Generic;
 
 public class AstarAgent : MonoBehaviour
 {
+    [Header("General")]
     public AstarAlgorythm grid;
     public Transform target;
     public float speed = 3f;
     public float maxWaitTime;
+
+    [Header("Stopping distance")]
+    public bool useStopDistance;
+    public int stopDist;
+
     float waitTime;
 
     AstarFollow computation;
@@ -22,21 +28,25 @@ public class AstarAgent : MonoBehaviour
 
     void Update()
     {
-        if (grid.gridExists && path == null)        
-            path = computation.FindPath(grid, transform.position, target.position);
-            
-        if(waitTime <= 0)
-        {
-            path = computation.FindPath(grid, transform.position, target.position);
-            waitTime = maxWaitTime;
-        }
-            
-
-        if (path == null || index >= path.Count)
-            return;       
-        
-        if(waitTime > 0)
+        if (waitTime > 0)
             waitTime -= Time.deltaTime;
+
+        if (waitTime <= 0 && grid.gridExists)      
+            Recalculate();
+
+        if(useStopDistance)
+            if (path == null || index >= stopDist)
+            {
+              Recalculate();
+              return;
+            }
+        else
+            if (path == null || index >= path.Count)
+            {
+                Recalculate();
+                return;
+            }
+
 
         Vector2 targetPos = path[index].pos;
         transform.position = Vector2.MoveTowards(
@@ -54,5 +64,15 @@ public class AstarAgent : MonoBehaviour
         Gizmos.color = Color.blue;
         for (int i = 0; i < path.Count - 1; i++)
             Gizmos.DrawLine(path[i].pos, path[i + 1].pos);
+    }
+
+    void Recalculate()
+    {       
+        index = 0;
+        if(useStopDistance)
+            path = computation.FindPath(grid, transform.position, transform.position + (target.position - transform.position).normalized * ((target.position - transform.position).magnitude - stopDist));
+        else
+            path = computation.FindPath(grid, transform.position, target.position);
+        waitTime = maxWaitTime;
     }
 }

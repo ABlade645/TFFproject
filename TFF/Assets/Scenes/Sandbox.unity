@@ -1842,7 +1842,10 @@ MonoBehaviour:
   grid: {fileID: 2100769664}
   target: {fileID: 2105033486}
   speed: 3
-  maxWaitTime: 2
+  maxWaitTime: 1
+  useStopDistance: 1
+  stopDist: 2
+  useKeepDist: 1
 --- !u!1 &383190486 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8161306594335389812, guid: 0287253326b1b6d42b427e0099db00a7, type: 3}

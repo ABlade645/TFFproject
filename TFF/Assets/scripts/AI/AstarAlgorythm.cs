@@ -24,7 +24,7 @@ public class AstarAlgorythm : MonoBehaviour
                     new Vector2(x - size.x / 2 + 0.5f, y - size.y / 2 + 0.5f)
                     + (Vector2)transform.position;
 
-                bool walkable = !Physics2D.OverlapCircle(worldPos, 0.5f, obstacleMask);
+                bool walkable = !Physics2D.OverlapCircle(worldPos, 0.45f, obstacleMask);
                 grid[y, x] = new Node(worldPos, walkable);
             }
         gridExists = true;
