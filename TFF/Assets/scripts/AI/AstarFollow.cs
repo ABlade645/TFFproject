@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class AstarFollow : MonoBehaviour
 {
-    public List<Node> FindPath(AstarAlgorythm grid,Vector2 startWorld,Vector2 targetWorld)
+    public float obstacleExtruidingDist;
+    public bool useExtruding;
+
+    public List<Node> FindPath(AstarAlgorythm grid,Vector2 startWorld,Vector2 targetWorld, LayerMask obstacle, GameObject agent)
     {
         Node start = grid.GetNodeFromWorld(startWorld);
         Node target = grid.GetNodeFromWorld(targetWorld);
@@ -41,7 +44,15 @@ public class AstarFollow : MonoBehaviour
                     parent[neighbour] = current;
 
                     if (!open.Contains(neighbour))
-                        open.Add(neighbour);
+                    {
+                        if (useExtruding)
+                        {
+                            //if (!Physics2D.OverlapCircle(neighbour.pos, obstacleExtruidingDist, obstacle) && Physics2D.OverlapCircle(neighbour.pos, obstacleExtruidingDist, obstacle) != agent)
+                                open.Add(neighbour);
+                        }
+                        else
+                            open.Add(neighbour);
+                    }                    
                 }
             }
         }

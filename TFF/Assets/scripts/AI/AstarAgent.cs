@@ -8,6 +8,7 @@ public class AstarAgent : MonoBehaviour
     public Transform target;
     public float speed = 3f;
     public float maxWaitTime;
+    public LayerMask whatToExtrude;
 
     [Header("Stopping distance")]
     public bool useStopDistance;
@@ -70,9 +71,9 @@ public class AstarAgent : MonoBehaviour
     {       
         index = 0;
         if(useStopDistance)
-            path = computation.FindPath(grid, transform.position, transform.position + (target.position - transform.position).normalized * ((target.position - transform.position).magnitude - stopDist));
+            path = computation.FindPath(grid, transform.position, transform.position + (target.position - transform.position).normalized * ((target.position - transform.position).magnitude - stopDist), whatToExtrude, gameObject);
         else
-            path = computation.FindPath(grid, transform.position, target.position);
+            path = computation.FindPath(grid, transform.position, target.position, whatToExtrude, gameObject);
         waitTime = maxWaitTime;
     }
 }
