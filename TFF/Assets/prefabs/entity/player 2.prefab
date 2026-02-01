@@ -138,6 +138,7 @@ MonoBehaviour:
   isgrounded: {fileID: 2921061833721623826}
   player: {fileID: 2921061833721623824}
   isWalking: 0
+  CD: 0
   maxCD: 0.5
   topDownMovement: 0
   playSteps: 0
@@ -1536,7 +1537,7 @@ MonoBehaviour:
   canMove: 0
   moveInput: 0
   JumpForce: 25
-  speed: 15
+  speed: 0.3
   acceleration: 1.2
   Player: {fileID: 2921061833721623824}
   trail: {fileID: 6159289720367096910}
@@ -1576,7 +1577,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 2
   m_GravityScale: 5
   m_Material: {fileID: 6200000, guid: e4bae81c010c6bc4e843024f4e7dd32b, type: 2}
   m_Interpolate: 0
@@ -21716,6 +21717,7 @@ MonoBehaviour:
   isgrounded: {fileID: 2921061833721623826}
   player: {fileID: 2921061833721623824}
   isWalking: 0
+  CD: 0
   maxCD: 0.5
   topDownMovement: 0
   playSteps: 0
@@ -21865,6 +21867,7 @@ MonoBehaviour:
   isgrounded: {fileID: 2921061833721623826}
   player: {fileID: 2921061833721623824}
   isWalking: 0
+  CD: 0
   maxCD: 0.3
   topDownMovement: 0
   playSteps: 1

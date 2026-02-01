@@ -6,7 +6,7 @@ public class playercontroller : MonoBehaviour
 	public float moveInput;
 	public float JumpForce;
 	public float speed;
-	public float acceleration;
+	public float drag;
 
 	public GameObject Player;
 
@@ -38,7 +38,6 @@ public class playercontroller : MonoBehaviour
 	public int extraJumpsValue;
 
 	float ObjSpeed;
-	float direction;
 
 	RaycastHit2D hit;
 	RaycastHit2D hitS;
@@ -82,10 +81,12 @@ public class playercontroller : MonoBehaviour
 			//movement direction----------------------
 			moveInput = Input.GetAxis("Horizontal");
 
-            if (script.isDashing == false && climbing.isClimbing == false && hitStun == false && isGrabbed == false && inMinecart == false)
-			{
-				rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
-			}
+            if (script.isDashing == false && climbing.isClimbing == false && hitStun == false && isGrabbed == false && inMinecart == false)			
+				transform.position += (Vector3)Vector2.right * moveInput * speed;
+
+			if(rb.velocity.magnitude > 0)
+				rb.velocity += new Vector2(rb.velocity.x * -1, 0).normalized * (drag * Time.deltaTime);
+			
 
 			if (hitStun == true)
 			{
@@ -100,114 +101,87 @@ public class playercontroller : MonoBehaviour
 				}
 			}
 
-			if (facingRight == false && moveInput > 0)
-			{
+			if (facingRight == false && moveInput > 0)			
+				if (isGrounded == true)
+				{
+					particle.Play();
+					facingRight = !facingRight;
+				}			
+			else if (facingRight == true && moveInput < 0)			
 				if (isGrounded == true)
 				{
 					particle.Play();
 					facingRight = !facingRight;
 				}
-			}
-			else if (facingRight == true && moveInput < 0)
-			{
-				if (isGrounded == true)
-				{
-					particle.Play();
-					facingRight = !facingRight;
-				}
-			}
+			
 		}	
 	}
 
 	public void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (collision.gameObject.tag == jumpBoost && Input.GetKey(KeyCode.Space))
-		{
+		if (collision.gameObject.tag == jumpBoost && Input.GetKey(KeyCode.Space))		
 			rb.velocity = Vector2.up * jbForce;
-		}
+		
 	}
 
 	public void Update()
 	{
 		if (canMove)
 		{
-            if (timeBeforeJump > 0)
-            {
+            if (timeBeforeJump > 0)       
                 timeBeforeJump -= Time.deltaTime;
-            }
+            
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
+            if (Input.GetKeyDown(KeyCode.Space))           
                 timeBeforeJump = maxTimeBeforeJump;
-            }
+           
 
-            if (timeBeforeJump > 0)
-            {
-                if (isGrounded == true)
-                {
+            if (timeBeforeJump > 0)            
+                if (isGrounded == true)         
                     rb.velocity = Vector2.up * JumpForce;
-                }
-            }
 
-            if (moveInput > 0)
-            {
-                direction = 1;
-            }
-
-            if (moveInput < 0)
-            {
-                direction = -1;
-            }
+            
 
             var currentSp = rb.velocity.y;
 
             ObjSpeed = currentSp;
 
-            if (Input.GetKeyDown(KeyCode.Space) && isGrounded == true)
-            {
+            if (Input.GetKeyDown(KeyCode.Space) && isGrounded == true)           
                 smoke.Play();
-            }
+            
 
-            jumpTimer -= Time.deltaTime;
-            if (isGrounded == true)
-            {
+			if(jumpTimer> 0)
+				jumpTimer -= Time.deltaTime;
+
+            if (isGrounded == true)          
                 jumpTimer = maxJumpTimer;
-            }
+            
 
-            if (jumpTimer > 0)
-            {
+            if (jumpTimer > 0)           
                 extraJumps = extraJumpsValue;
-            }
+            
 
             if (Input.GetKeyDown(KeyCode.Space) && extraJumps > 0)
             {
                 rb.velocity = Vector2.up * JumpForce;
                 extraJumps--;
             }
-            else if (Input.GetKeyDown(KeyCode.Space) && extraJumps == 0 && jumpTimer > 0)
-            {
+            else if (Input.GetKeyDown(KeyCode.Space) && extraJumps == 0 && jumpTimer > 0)            
                 rb.velocity = Vector2.up * JumpForce;
-            }
+            
 
             if (isGrounded == true)
             {
-                if (Input.GetKeyDown(KeyCode.D))
-                {
-                    movingRight = true;
-                }
-                else if (Input.GetKeyUp(KeyCode.D))
-                {
+                if (Input.GetKeyDown(KeyCode.D))             
+                    movingRight = true;        
+                else if (Input.GetKeyUp(KeyCode.D))               
                     movingRight = false;
-                }
+                
 
-                if (Input.GetKeyDown(KeyCode.A))
-                {
-                    movingLeft = true;
-                }
-				else if (Input.GetKeyUp(KeyCode.A))
-                {
-                    movingLeft = false;
-                }
+                if (Input.GetKeyDown(KeyCode.A))             
+                    movingLeft = true;             
+				else if (Input.GetKeyUp(KeyCode.A))             
+                    movingLeft = false;              
             }
         }
     }

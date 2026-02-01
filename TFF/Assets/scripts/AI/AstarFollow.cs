@@ -47,7 +47,7 @@ public class AstarFollow : MonoBehaviour
                     {
                         if (useExtruding)
                         {
-                            //if (!Physics2D.OverlapCircle(neighbour.pos, obstacleExtruidingDist, obstacle) && Physics2D.OverlapCircle(neighbour.pos, obstacleExtruidingDist, obstacle) != agent)
+                            if (!Physics2D.OverlapCircle(neighbour.pos, obstacleExtruidingDist, obstacle) && Physics2D.OverlapCircle(neighbour.pos, obstacleExtruidingDist, obstacle) != agent.GetComponent<Collider2D>())
                                 open.Add(neighbour);
                         }
                         else

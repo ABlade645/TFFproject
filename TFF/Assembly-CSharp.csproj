@@ -89,7 +89,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
     <Compile Include="Assets\image.cs" />
     <Compile Include="Assets\scripts\misc\enemySpawner.cs" />
-    <Compile Include="Assets\scripts\misc\ZZTSlamParticle.cs" />
+    <Compile Include="Assets\scripts\AI\zzt\ZZTSlamParticle.cs" />
     <Compile Include="Assets\scripts\AI\SlimePoisoned.cs" />
     <Compile Include="Assets\scripts\misc\AwakeCutscene.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
@@ -99,10 +99,12 @@
     <Compile Include="Assets\scripts\misc\Pause.cs" />
     <Compile Include="Assets\scripts\mechanics\Slam.cs" />
     <Compile Include="Assets\scripts\misc\DialogManager.cs" />
+    <Compile Include="Assets\scripts\AI\zzt\zztStates.cs" />
     <Compile Include="Assets\scripts\misc\SecretLevelEntryCheck.cs" />
     <Compile Include="Assets\scripts\Utility\Settings\Keys\KeyInput.cs" />
     <Compile Include="Assets\scripts\mechanics\Explosion.cs" />
     <Compile Include="Assets\scripts\misc\dropInstantiator.cs" />
+    <Compile Include="Assets\scripts\AI\zzt\zztAttacks.cs" />
     <Compile Include="Assets\scripts\mechanics\enemyInstaciationTrigger.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
@@ -119,6 +121,7 @@
     <Compile Include="Assets\scripts\Levels\LayerSwitch.cs" />
     <Compile Include="Assets\scripts\misc\TextAnim.cs" />
     <Compile Include="Assets\scripts\mechanics\CollisionHeal.cs" />
+    <Compile Include="Assets\scripts\AI\zzt\zztPathStorage.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
     <Compile Include="Assets\scripts\misc\DialogTrigger.cs" />
@@ -232,7 +235,7 @@
     <Compile Include="Assets\scripts\mechanics\slimeJumpDir.cs" />
     <Compile Include="Assets\scripts\Levels\antiWallClip.cs" />
     <Compile Include="Assets\scripts\AI\AstarFollow.cs" />
-    <Compile Include="Assets\scripts\AI\zztAI.cs" />
+    <Compile Include="Assets\scripts\AI\zzt\zztAI.cs" />
     <Compile Include="Assets\scripts\misc\Signals.cs" />
     <Compile Include="Assets\scripts\mechanics\RockJump.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
@@ -251,10 +254,10 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\scripts\misc\FileCreator.cs" />
     <Compile Include="Assets\scripts\AI\AstarAgent.cs" />
+    <Compile Include="Assets\scripts\AI\zzt\zztPathExecuter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
-    <None Include="Assets\CoreExe\CoreExecutable.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\CoreExe\CoreTxt.txt" />
@@ -280,6 +283,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Bangers - OFL.txt" />
+    <None Include="Assets\CoreExe\CoreExecutable.dll" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

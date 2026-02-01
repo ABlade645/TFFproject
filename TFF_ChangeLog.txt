@@ -1,4 +1,10 @@
-changelog v0.7.1.1
+changelog v0.7.1.2
 ------------------------------------
-added version nomenclature
-Object extruding in Astar pathfinding (work in progress)
+added manual vector point follow to IK system
+002 AI redone
+Added 002 AI structures:
+-zztAI - main decision center
+-zztAttacks - attack calculation
+-zztPathStorage - IK path constructor
+-zztPathExecuter - IK path visualiser, computator
+-zztStates - active boss states (idle, jumping, etc.)
