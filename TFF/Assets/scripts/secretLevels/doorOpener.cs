@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.Playables;
@@ -24,10 +23,13 @@ public class doorOpener : MonoBehaviour
     Vector3 thresholdStartPos;
     float bufferLight;
 
+    HandEvent hand;
+
     void Start()
     {
         thresholdStartPos = threshold.localPosition;
         bufferLight = lightArr[0].intensity;
+        hand = GameObject.Find("HandBorder").GetComponent<HandEvent>();
     }
 
     public void Trigger()
@@ -39,11 +41,6 @@ public class doorOpener : MonoBehaviour
         for (int i = 0; i < lightArr.Length; i++)
             if(lightArr[i].gameObject.activeSelf)
                 lightArr[i].intensity = Random.Range((int)(lightFlickDif * 10), (int)((bufferLight + 0.1) * 10))/10.0f;
-/*
-        for (int i = 0; i < lightArr.Length; i++)
-            if (lightArr[i].gameObject.activeSelf)
-                lightArr[i].intensity = bufferLight;*/
-        //StartCoroutine("ShakeCoroutine");
     }
 
     void Update()
@@ -57,6 +54,9 @@ public class doorOpener : MonoBehaviour
 
         if (threshold.localPosition != thresholdStartPos)
             threshold.localPosition = Vector2.MoveTowards(threshold.localPosition, thresholdStartPos, retSpeed);
+
+        if (used && timeline.state != PlayState.Playing)
+            hand.canTrigger = true;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -75,11 +75,5 @@ public class doorOpener : MonoBehaviour
             caninterract = true;
             info.SetActive(false);
         }
-    }
-
-    IEnumerator ShakeCoroutine()
-    {
-       
-        yield return new WaitForSeconds(0);
     }
 }

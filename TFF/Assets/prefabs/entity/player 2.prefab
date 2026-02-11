@@ -1268,11 +1268,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af06f3164fc532428af07c07a42fe4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeed: 200
-  speedMultiplier: 0.1
-  impulse: 80
-  canImpulse: 1
-  waitTime: 0.2
+  speedMultiplier: 0.5
+  impulseLength: 1
 --- !u!1 &2921061833321745834
 GameObject:
   m_ObjectHideFlags: 0
@@ -1538,7 +1535,7 @@ MonoBehaviour:
   moveInput: 0
   JumpForce: 25
   speed: 0.3
-  acceleration: 1.2
+  drag: 0
   Player: {fileID: 2921061833721623824}
   trail: {fileID: 6159289720367096910}
   particle: {fileID: 2139643069779543170}
@@ -7103,10 +7100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 987dbc8216b94f34b982fb1767bb32a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offsetX: 0.15
-  offsetY: 0.1
-  baseSpeed: 200
-  speedMultiplier: 0.4
+  offset: 0.35
+  offsetVec: {x: -0.1, y: 0.1, z: 0}
 --- !u!95 &4165850230564350376
 Animator:
   serializedVersion: 3

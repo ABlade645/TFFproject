@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class zztPathExecuter : MonoBehaviour
@@ -22,22 +21,19 @@ public class zztPathExecuter : MonoBehaviour
     void Update()
     {
         if (isExecuting && currentNode < paths[whatToExecute].path.Length)
-        {            
-            if (sqrDist > Mathf.Pow((ik.segmentPoses[ik.segmentPoses.Length - 1] - paths[whatToExecute].path[currentNode]).magnitude, 2))
-                ik.targetPoint = paths[whatToExecute].path[currentNode];
+        {
+            if (sqrDist > Mathf.Pow((ik.segmentPoses[ik.line.Length - 1] - (paths[whatToExecute].path[currentNode] + (Vector2)transform.position)).magnitude, 2))
+                ik.targetVec = paths[whatToExecute].path[currentNode] + (Vector2)transform.position;
             else
                 currentNode++;
-
-            currentNode = 0;
         }
-        else
-        {
+        else       
             if(isExecuting)
             {
                 paths[whatToExecute].tentacle.SetActive(false);
                 isExecuting = false;
             }       
-        }     
+            
     }
 
     public void Prepare(int index)
@@ -45,12 +41,15 @@ public class zztPathExecuter : MonoBehaviour
         whatToExecute = index;
 
         paths[whatToExecute].tentacle.SetActive(true);
-        ik = paths[whatToExecute].tentacle.GetComponentInParent<InversedKinematicsLeg>();
+        ik = paths[whatToExecute].tentacle.GetComponent<InversedKinematicsLeg>();
 
         for (int i = 0; i < ik.segmentPoses.Length; i++)        
             ik.segmentPoses[i] = paths[whatToExecute].startPos.position;
 
         sqrDist = stopDistance * stopDistance;
+
+        currentNode = 0;
+        isExecuting = true;
     }
 
     void OnDrawGizmos()

@@ -1,45 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class playerFaceFollow : MonoBehaviour
 {
-    GameObject player;
-    GameObject cursor;
-    public float offsetX;
-    public float offsetY;
+    Transform player;
+    Transform cursor;
 
-    float speed;
-    public float baseSpeed;
-    public float speedMultiplier;
-    int difference;
+    public float offset;
+    public Vector3 offsetVec;
 
     void Start()
     {
-        cursor = GameObject.FindGameObjectWithTag("Cursor");
-        player = GameObject.FindGameObjectWithTag("Player");
+        cursor = GameObject.FindGameObjectWithTag("Cursor").transform;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+    }
+
+    void FixedUpdate()
+    {
+        transform.position = player.position + offsetVec + (cursor.position - player.position).normalized * offset;
     }
 
     void Update()
     {
-        if (player.transform.position.x > cursor.transform.position.x)
-        {
-            difference = -1;
-            offsetX = 0.3f;
+        if (player.position.x > cursor.position.x)
             GetComponent<SpriteRenderer>().flipX = true;
-        }
+        
 
-        if (player.transform.position.x < cursor.transform.position.x)
-        {
-            difference = 1;
-            offsetX = 0.15f;
+        if (player.position.x < cursor.position.x)
             GetComponent<SpriteRenderer>().flipX = false;
-        }
-
-        if (transform.position != player.transform.position)
-        {
-            speed = baseSpeed * (speedMultiplier * Vector2.Distance(transform.position, player.transform.position + new Vector3(offsetX * difference, offsetY, player.transform.position.z)));
-            transform.position = Vector2.MoveTowards(transform.position, player.transform.position + new Vector3(offsetX * difference, offsetY, player.transform.position.z), speed * Time.deltaTime);
-        }
     }
 }

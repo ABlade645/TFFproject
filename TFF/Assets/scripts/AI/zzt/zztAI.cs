@@ -21,7 +21,8 @@ public class zztAI : MonoBehaviour
     float waitTime;
     float timeBtwAttack;
 
-    [HideInInspector]
+    [Header("Debug")]
+    //[HideInInspector]
     public int attackIndex; //0 - idle
     bool hasSpawned;
     
@@ -32,6 +33,8 @@ public class zztAI : MonoBehaviour
     {
         if (!hasSpawned)
             Setup();
+
+
 
         if(timeBtwAttack > 0)
         {
@@ -109,6 +112,10 @@ public class zztAI : MonoBehaviour
                 tentacles.Prepare(0);
                 break;
 
+            case 3:
+                tentacles.Prepare(1);
+                break;
+
             default:
                 Debug.Log("ZZT AI: attack does not exist");
                 break;
@@ -144,6 +151,10 @@ public class zztAI : MonoBehaviour
         states = GetComponent<zztStates>();
         tentacles = GetComponent<zztPathExecuter>();
 
+        for (int i = 0; i < tentacles.paths.Length; i++)
+            tentacles.paths[i].tentacle.SetActive(true);
+        
+
         timeBtwAttack = maxTimeBtwAttack;
         hasSpawned = true;
     }
@@ -153,11 +164,4 @@ public class zztAI : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(transform.position, Vector2.down * groundCheckDistance + (Vector2)transform.position);
     }
-
-    /*
-    void OnDrawGizmos()
-    {
-        
-    }
-    */
 }

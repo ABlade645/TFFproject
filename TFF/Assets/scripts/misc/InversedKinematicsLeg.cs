@@ -3,6 +3,7 @@ using UnityEngine;
 public class InversedKinematicsLeg : MonoBehaviour
 {
     [Header("General")]
+    public bool deactivateOnLoad;
     public Transform staticPos;
     public int length;
 
@@ -14,10 +15,13 @@ public class InversedKinematicsLeg : MonoBehaviour
     public float speed;
 
     [Header("By Object")]
-    public GameObject objectToConnect;
+    public GameObject objectToConnect; //target objct
+    //[HideInInspector]
+    public Vector2 targetVec;
 
     [Header("Leg function")]
-    public GameObject targetObject;
+    public GameObject targetObject; //base connect object
+    [HideInInspector]
     public Vector2 targetPoint;
 
     [Header("Angle")]
@@ -27,8 +31,8 @@ public class InversedKinematicsLeg : MonoBehaviour
     public float allowedAngleU;
     public float allowedAngleL;
 
-    float oDistance;
-    bool hasSpawned = true;
+    [HideInInspector]
+    public bool hasSpawned = true;
 
     [HideInInspector]
     public Vector2[] segmentPoses;
@@ -42,37 +46,39 @@ public class InversedKinematicsLeg : MonoBehaviour
 
     void Update()
     {
-        if (targetObject != null)
+        if (objectToConnect != null)
+            targetVec = (Vector2)objectToConnect.transform.position;
+
+        if(targetObject != null)
             targetPoint = (Vector2)targetObject.transform.position;
 
         if (hasSpawned)
-        {
-            for (int i = 0; i < line.Length; i++)
-            {
+        {           
+            for (int i = 0; i < line.Length; i++)           
                 segmentPoses[i] = line[i].transform.position;
-                if (i == line.Length - 1)                
-                    hasSpawned = false;
-                
-            }
+
+            hasSpawned = false;
+            if (deactivateOnLoad)
+                gameObject.SetActive(false);
         }
 
-        if (hasSpawned == false)
+        if (!hasSpawned)
         {
             segmentPoses[segmentPoses.Length - 1] = Vector2.MoveTowards(segmentPoses[segmentPoses.Length - 1], targetPoint, speed * Time.deltaTime);
             line[0].transform.position = segmentPoses[0];
             line[segmentPoses.Length - 1].transform.position = segmentPoses[segmentPoses.Length - 1];
 
-            Vector3 difference = ((Vector2)objectToConnect.transform.position - segmentPoses[0]).normalized;
+            Vector3 difference = (targetVec - segmentPoses[0]).normalized;
             float rotateZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
             line[0].transform.rotation = Quaternion.Euler(0f, 0f, rotateZ + offset);
         }
 
-        if (Vector2.Distance(objectToConnect.transform.position, segmentPoses[segmentPoses.Length - 1]) > targetDist * line.Length)
-            segmentPoses[0] = segmentPoses[segmentPoses.Length - 1] + (((Vector2)objectToConnect.transform.position - segmentPoses[segmentPoses.Length - 1]).normalized * (targetDist * line.Length));
+        if (Vector2.Distance(targetVec, segmentPoses[segmentPoses.Length - 1]) > targetDist * line.Length)
+            segmentPoses[0] = segmentPoses[segmentPoses.Length - 1] + ((targetVec - segmentPoses[segmentPoses.Length - 1]).normalized * (targetDist * line.Length));
         
 
-        if (Vector2.Distance(objectToConnect.transform.position, segmentPoses[segmentPoses.Length - 1]) < targetDist * line.Length)        
-            segmentPoses[0] = segmentPoses[segmentPoses.Length - 1] + ((Vector2)objectToConnect.transform.position - segmentPoses[segmentPoses.Length - 1]);
+        if (Vector2.Distance(targetVec, segmentPoses[segmentPoses.Length - 1]) < targetDist * line.Length)        
+            segmentPoses[0] = segmentPoses[segmentPoses.Length - 1] + (targetVec - segmentPoses[segmentPoses.Length - 1]);
         
 
 

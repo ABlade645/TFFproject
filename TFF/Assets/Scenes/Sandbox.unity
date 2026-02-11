@@ -277,7 +277,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &61677465
 Transform:
   m_ObjectHideFlags: 0
@@ -308,19 +308,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed9a8a56e37676c419b0eeb4f8b43408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deactivateOnLoad: 1
   staticPos: {fileID: 426187081}
   length: 3
   targetDist: 1.5
   smoothSpeed: 0.01
   speed: 30
-  objectToConnect: {fileID: 1873917349}
-  targetObject: {fileID: 0}
+  objectToConnect: {fileID: 0}
+  targetVec: {x: 0, y: 0}
+  targetObject: {fileID: 511969961}
   targetPoint: {x: 0, y: 0}
   offset: 180
   drawGizmos: 0
   useRestraints: 0
   allowedAngleU: 10
   allowedAngleL: 0
+  hasSpawned: 1
   segmentPoses: []
   line:
   - {fileID: 764913012}
@@ -1972,7 +1975,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &404148150
 Transform:
   m_ObjectHideFlags: 0
@@ -2003,19 +2006,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed9a8a56e37676c419b0eeb4f8b43408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deactivateOnLoad: 1
   staticPos: {fileID: 426187081}
   length: 3
   targetDist: 1.5
   smoothSpeed: 0.01
   speed: 30
   objectToConnect: {fileID: 1873917349}
-  targetObject: {fileID: 0}
+  targetVec: {x: 0, y: 0}
+  targetObject: {fileID: 558974619}
   targetPoint: {x: 0, y: 0}
   offset: 180
   drawGizmos: 0
   useRestraints: 0
   allowedAngleU: 10
   allowedAngleL: 0
+  hasSpawned: 1
   segmentPoses: []
   line:
   - {fileID: 495166873}
@@ -48951,7 +48957,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   maxTimeBtwAttack: 5
-  attackWeight: 0a00000032000000
+  attackWeight: 0a00000032000000320000001e000000
   groundCheckDistance: 2.5
   attackIndex: 0
   groundCheck: 0
@@ -49028,8 +49034,8 @@ MonoBehaviour:
   - {fileID: 897848572}
   - {fileID: 1345891588}
   stopDistance: 0.1
-  drawGizmos: 0
-  gizmosIndex: 0
+  drawGizmos: 1
+  gizmosIndex: 1
   whatToExecute: 0
   isExecuting: 0
   currentNode: 0
@@ -49438,8 +49444,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74774ed9d53d2d04596c9089f94c33bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tentacle: {fileID: 0}
-  startPos: {fileID: 0}
+  tentacle: {fileID: 61677464}
+  startPos: {fileID: 511969962}
   path:
   - {x: -0.71, y: 7.34}
   - {x: -5.16, y: 4.42}
@@ -50401,7 +50407,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1071162340
 Transform:
   m_ObjectHideFlags: 0
@@ -50432,19 +50438,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed9a8a56e37676c419b0eeb4f8b43408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deactivateOnLoad: 1
   staticPos: {fileID: 426187081}
   length: 3
   targetDist: 1.5
   smoothSpeed: 0.01
   speed: 30
-  objectToConnect: {fileID: 1873917349}
-  targetObject: {fileID: 0}
+  objectToConnect: {fileID: 0}
+  targetVec: {x: 0, y: 0}
+  targetObject: {fileID: 2006734295}
   targetPoint: {x: 0, y: 0}
   offset: 180
   drawGizmos: 0
   useRestraints: 0
   allowedAngleU: 10
   allowedAngleL: 0
+  hasSpawned: 1
   segmentPoses: []
   line:
   - {fileID: 998004469}
@@ -50806,7 +50815,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1123804263
 Transform:
   m_ObjectHideFlags: 0
@@ -50837,19 +50846,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed9a8a56e37676c419b0eeb4f8b43408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deactivateOnLoad: 1
   staticPos: {fileID: 426187081}
   length: 3
   targetDist: 1.5
   smoothSpeed: 0.01
   speed: 30
   objectToConnect: {fileID: 1873917349}
-  targetObject: {fileID: 0}
+  targetVec: {x: 0, y: 0}
+  targetObject: {fileID: 1675401560}
   targetPoint: {x: 0, y: 0}
   offset: 180
   drawGizmos: 0
   useRestraints: 0
   allowedAngleU: 10
   allowedAngleL: 0
+  hasSpawned: 1
   segmentPoses: []
   line:
   - {fileID: 2129148468}
@@ -56728,8 +56740,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74774ed9d53d2d04596c9089f94c33bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tentacle: {fileID: 0}
-  startPos: {fileID: 0}
+  tentacle: {fileID: 1071162339}
+  startPos: {fileID: 2006734296}
   path:
   - {x: -4.61, y: -0.17}
   - {x: -10.14, y: 1.45}
@@ -99320,7 +99332,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1744057920
 Transform:
   m_ObjectHideFlags: 0
@@ -99351,19 +99363,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed9a8a56e37676c419b0eeb4f8b43408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deactivateOnLoad: 1
   staticPos: {fileID: 426187081}
   length: 3
   targetDist: 1.5
   smoothSpeed: 0.01
   speed: 30
   objectToConnect: {fileID: 1873917349}
-  targetObject: {fileID: 0}
+  targetVec: {x: 0, y: 0}
+  targetObject: {fileID: 2100776726}
   targetPoint: {x: 0, y: 0}
   offset: 180
   drawGizmos: 0
   useRestraints: 0
   allowedAngleU: 10
   allowedAngleL: 0
+  hasSpawned: 1
   segmentPoses: []
   line:
   - {fileID: 1582733296}
