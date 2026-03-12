@@ -10,7 +10,13 @@ public class SecretLevelEntryCheck : MonoBehaviour
 
     void Start()
     {
-        textVal = File.ReadAllText(Application.dataPath + "\\CoreExe\\CoreTxt.txt"); 
+        if (File.Exists(Application.dataPath + "\\CoreExe\\CoreTxt.txt"))
+            textVal = File.ReadAllText(Application.dataPath + "\\CoreExe\\CoreTxt.txt");
+        else
+        {
+            File.Create(Application.dataPath + "\\CoreExe\\CoreTxt.txt");
+            RepeatingAction();
+        }
 
         if (int.TryParse(textVal, out number))
             int.TryParse(textVal, out number);

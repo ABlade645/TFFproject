@@ -55,7 +55,7 @@ public class doorOpener : MonoBehaviour
         if (threshold.localPosition != thresholdStartPos)
             threshold.localPosition = Vector2.MoveTowards(threshold.localPosition, thresholdStartPos, retSpeed);
 
-        if (used && timeline.state != PlayState.Playing)
+        if (used && timeline.state != PlayState.Playing && !hand.canTrigger)
             hand.canTrigger = true;
     }
 

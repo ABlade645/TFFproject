@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class menuApple : MonoBehaviour
@@ -19,15 +17,13 @@ public class menuApple : MonoBehaviour
 
     void Start()
     {
-        if (canRotate)
-        {
+        if (canRotate)       
             rotAngle = transform.rotation.z;
-        }
+        
 
-        if (allowOffsetMovement)
-        {
+        if (allowOffsetMovement)       
             startVector = transform.position;
-        }
+        
     }
 
     void Update()

@@ -5,15 +5,10 @@ using UnityEngine;
 public class CursorS : MonoBehaviour
 {
     public GameObject cursor;
-    Vector3 mouse;
 
-    void Update()
+    void FixedUpdate()
     {
-        mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        mouse.z = 0;
-
-        cursor.transform.position = mouse;
+        cursor.transform.position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
     void Start()

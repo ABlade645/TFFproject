@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class keyDoor : MonoBehaviour
 {
@@ -7,7 +8,11 @@ public class keyDoor : MonoBehaviour
     [HideInInspector]
     public bool hasKey;
     public string keyCardName;
-    public GameObject InfoS;
+    //[HideInInspector]
+    public string InfoS = "A card is needed";
+    //[HideInInspector]
+    public Color InfoC = Color.white;
+    public GameObject Info;
     public GameObject coll;
 
     //Animations
@@ -31,7 +36,12 @@ public class keyDoor : MonoBehaviour
                 coll.SetActive(false);
             }
             else
-                InfoS.SetActive(true);     
+            {
+                Info.SetActive(true);
+                Info.GetComponent<Text>().text = InfoS;
+                Info.GetComponent<Text>().color = InfoC;
+            }
+                     
         }
     }
 
@@ -44,8 +54,8 @@ public class keyDoor : MonoBehaviour
                 anim.CrossFade(closed, 0);
                 coll.SetActive(true);
             }
-            else
-                InfoS.SetActive(false);
+            else 
+                Info.SetActive(false);
         }
     }
 }

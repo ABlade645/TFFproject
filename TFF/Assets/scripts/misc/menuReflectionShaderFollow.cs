@@ -1,22 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class menuReflectionShaderFollow : MonoBehaviour
 {
     public GameObject camera;
-    GameObject player;
+    public Transform target;
+
+    public bool holdY;
+    public bool holdX;
+    float X, Y;
 
     void Update()
     {
-        if (player == null)
+        if (holdY)
         {
-            player = GameObject.FindGameObjectWithTag("Player");
-        }
+            if (Y != transform.position.y)
+                Y = transform.position.y;
+        }            
+        else
+            Y = target.position.y;
 
-        if (camera.transform.position.x != player.transform.position.x)
+        if (holdX)
         {
-            camera.transform.position = new Vector3(player.transform.position.x, camera.transform.position.y, camera.transform.position.z);
+            if(X != transform.position.x)
+                X = transform.position.x;
         }
+        else
+            X = target.position.x;
+
+        if (camera.transform.position.x != target.position.x)       
+            camera.transform.position = new Vector3(X, Y);       
     }
 }

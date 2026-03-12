@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Playables;
-using Cinemachine;
 
 public class Buttons : MonoBehaviour
 {
@@ -22,80 +20,91 @@ public class Buttons : MonoBehaviour
     public string sandbox;
 
     [Header("General")]
-    public GameObject player;
-    public GameObject camera;
-    public GameObject cinemachine;
+    public Vector2[] poses;
+    //Selection roll
     [HideInInspector]
-    public bool canFollow;
+    public Vector2 currentPos;
+    [HideInInspector]
+    public int currentIndex;
+
+    public GameObject camera;
     public float speed;
-    public float stoppingDist;
     public bool cameraToggle;
     public float maxCDtime;
     float CDtime;
 
     SaveSystem save;
     levelSelectToMenu returnSc;
-    playercontroller controller;
-    GameObject playerSoundManager;
     bool canCacheObjects = true;
-    bool beginCaching;
 
     void Start()
     {
         state = 1;
-        canFollow = false;
         save = FindObjectOfType<SaveSystem>();
         returnSc = FindObjectOfType<levelSelectToMenu>();
         layer = 0;
-        controller = FindObjectOfType<playercontroller>();
-        controller.canMove = false;
-        playerSoundManager = GameObject.Find("SoundManager");
         TransitionNames = new string[Transitions.Length];
+
+        currentPos = poses[0];
+        currentIndex = 0;
     }
 
     void Update()
     {
-        if (CDtime > 0)
-        {
+        if (CDtime > 0)      
             CDtime -= Time.deltaTime;
-        }
+        
 
         if (canCacheObjects && TransitionDict.Count != Transitions.Length)
         {
             for (int i = 0; i < TransitionNames.Length; i++)
             {
-                if (TransitionNames[i] != Transitions[i].name)
-                {
-                    TransitionNames[i] = Transitions[i].name;
-                }
-
-                if (i == TransitionNames.Length - 1)
-                {
-                    beginCaching = true;
-                }
-            }
-            if (beginCaching)
-            {
-                AddToCache();
+                if (TransitionNames[i] != Transitions[i].name)                
+                    TransitionNames[i] = Transitions[i].name;            
             }
 
+            AddToCache();
         }
-        else
-        {
+        else        
             canCacheObjects = false;
+        
+
+        if (camera.transform.position != new Vector3(currentPos.x, currentPos.y))
+        {
+            camera.transform.position = Vector3.MoveTowards(camera.transform.position, new Vector3(currentPos.x, currentPos.y, camera.transform.position.z), speed * Time.deltaTime);
+            float sqrDist = (currentPos - (Vector2)camera.transform.position).sqrMagnitude;         
         }
 
-
-        if (canFollow == true && camera.transform.position != new Vector3(player.transform.position.x, player.transform.position.y, -10) && cameraToggle == true)
+        if (currentIndex >= 1)
         {
-            camera.transform.position = Vector3.MoveTowards(camera.transform.position, new Vector3(player.transform.position.x, player.transform.position.y, -10), speed * Time.deltaTime);
-            float sqrDist = (player.transform.position - camera.transform.position).sqrMagnitude;
-            if (sqrDist <= stoppingDist * stoppingDist)
+            if (Input.GetKeyDown(KeyCode.A) && currentIndex > 1)
             {
-                canFollow = false;
-                cinemachine.GetComponent<CinemachineBrain>().enabled = true;
+                currentPos = poses[currentIndex - 1];
+                currentIndex--;
+            }
+
+            if (Input.GetKeyDown(KeyCode.D) && currentIndex < poses.Length - 1)
+            {
+                currentPos = poses[currentIndex + 1];
+                currentIndex++;
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+            switch (currentIndex)
+            {
+                case 1:
+                    SceneManager.LoadScene(1);
+                    break;
+
+                case 2:
+                    EnterSandbox();
+                    break;
+
+                case 3:
+                    SceneManager.LoadScene("Endless");
+                    break;
+            }
 
         switch (state) 
         {
@@ -131,38 +140,30 @@ public class Buttons : MonoBehaviour
         }
     }
 
+    //Cache timeline references----------------------------------
     public void AddToCache()
     {
         for (int i = 0; i < Transitions.Length; i++)
         {
             if (!TransitionDict.ContainsKey(TransitionNames[i]))
-            {
-                TransitionDict[TransitionNames[i]] = Transitions[i];
-            }
-            if (i == Transitions.Length - 1)
-            {
-                beginCaching = false;
-            }
+                TransitionDict[TransitionNames[i]] = Transitions[i];                     
         }
     }
-
+    
     public PlayableDirector GetFromCache(string key)
     {
-        if (TransitionDict.ContainsKey(key))
-        {
-            return TransitionDict[key];
-        }
-        else
-        {
+        if (TransitionDict.ContainsKey(key))       
+            return TransitionDict[key];     
+        else      
             Debug.LogError("Transition error: Key \"" + key + "\" not found");
-            return null;
-        }
+            return null;       
     }
 
     public void Play()
     {
         GetFromCache("PlayAnim").Play();
         layer++;
+        
         state = 1;
         CDtime = maxCDtime;
     }
@@ -173,12 +174,9 @@ public class Buttons : MonoBehaviour
         {
             CDtime = maxCDtime;
             GetFromCache("PlayAnimRev").Play();
-
-            if (cameraToggle)
-            {
-                canFollow = false;
-            }
+            
             layer--;
+            
         }   
     }
 
@@ -187,6 +185,7 @@ public class Buttons : MonoBehaviour
         Application.Quit();
     }
 
+    //Settings---------------------------------------
     public void Settings()
     {
         if (CDtime <= 0)
@@ -208,6 +207,7 @@ public class Buttons : MonoBehaviour
         }
     }
 
+    //Settings Keys -----------------------------------
     public void Controlls()
     {
         if (CDtime <= 0)
@@ -248,6 +248,7 @@ public class Buttons : MonoBehaviour
         }
     }
 
+    //Campaign load------------------------------
     public void StartGame()
     {
         SceneManager.LoadScene(start);
@@ -280,14 +281,11 @@ public class Buttons : MonoBehaviour
     void PlayTransition()
     {
         GetFromCache("SlotSelected").Play();
-
-        if (cameraToggle)
-        {
-            canFollow = true;
-        }
+        
         returnSc.canReturn = true;
         layer++;
-        controller.canMove = true;
-        playerSoundManager.SetActive(true);
+
+        currentPos = poses[1];
+        currentIndex = 1;
     }
 }

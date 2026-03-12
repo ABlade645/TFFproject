@@ -10,6 +10,7 @@ public class DaHandBehavour : MonoBehaviour
     public bool isFollowing = true;
 
     bool hasSpawned;
+    keyDoor door;
 
     void Update()
     {
@@ -24,15 +25,22 @@ public class DaHandBehavour : MonoBehaviour
 
             Vector3 vec = target - (Vector2)transform.position;
 
-            transform.position += vec.magnitude * speedMultiplier * vec.normalized;
+            transform.position += speedMultiplier * vec.normalized * Time.deltaTime;
 
             if (triggerDistance > vec.magnitude)
+            {
+                door.hasKey = true;
+                door.InfoC = Color.white;
+                door.InfoS = "A card is needed";
+                door.Info.SetActive(false);
                 gameObject.SetActive(false);
+            }             
         }
     }
 
     void Setup()
     {
+        door = GameObject.Find("doorBlue").GetComponent<keyDoor>();
         target = GameObject.FindGameObjectWithTag("Player").transform.position;
     }    
 }

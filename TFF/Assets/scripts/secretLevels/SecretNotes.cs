@@ -29,12 +29,7 @@ public class SecretNotes : MonoBehaviour
             }
 
             if (isLooking && timeline.state != PlayState.Playing)
-            {
-                timelineRev.Play();
-                isLooking = false;
-                txtObj.text = "";
-                txtObj.gameObject.SetActive(false);
-            }
+                HideText();
         }
     }
 
@@ -42,6 +37,14 @@ public class SecretNotes : MonoBehaviour
     {
         txtObj.gameObject.SetActive(true);
         txtObj.text = text;
+    }
+
+    void HideText()
+    {
+        timelineRev.Play();
+        isLooking = false;
+        txtObj.text = "";
+        txtObj.gameObject.SetActive(false);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -52,12 +55,10 @@ public class SecretNotes : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
+        if(isLooking)
+            HideText();
+
         canInterract = false;
         info.SetActive(false);
-        if (isLooking)
-        {
-            timelineRev.Play();
-            isLooking = false;
-        }
     }
 }

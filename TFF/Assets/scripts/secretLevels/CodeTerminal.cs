@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 
 public class CodeTerminal : MonoBehaviour
@@ -83,7 +84,11 @@ public class CodeTerminal : MonoBehaviour
     public void Enter()
     {
         if (Code.text == answer)
+        {
+            System.Diagnostics.Process.Start(Path.Combine(Application.dataPath, "StreamingAssets\\A_Message\\A_Message.exe"));
             SceneManager.LoadScene(0);
+        }
+           
     }
 
     void Close()
