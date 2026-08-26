@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Plants : MonoBehaviour, IDamagable
@@ -71,6 +69,11 @@ public class Plants : MonoBehaviour, IDamagable
     }
 
     public void TakeDamageRanged(float damage)
+    {
+        health -= damage;
+    }
+
+    public void TakeDamagePit(float damage)
     {
         health -= damage;
     }

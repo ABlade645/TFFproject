@@ -231,18 +231,11 @@ public class SlimeAI : MonoBehaviour , IDamagable
     {
         if (damageCD <= 0)
         {
-            shealth -= damage * dMultP;
-
-            //combo
-            combo.damageCount += damage * dMultP;
-            combo.isActive = true;
-            combo.time = combo.maxTime;
-            combo.TextOffset();
+            Proceedure(damage * dMultP);
             if (shealth <= 0)
-            {
                 killedByPhys = true;
-            }
         }
+
         damageCD = maxDamageCD;
     }
 
@@ -250,27 +243,34 @@ public class SlimeAI : MonoBehaviour , IDamagable
     {
         if (damageCD <= 0)
         {
-            shealth -= damage * dMultR;
-
-            //combo
-            combo.damageCount += damage * dMultR;
-            combo.isActive = true;
-            combo.time = combo.maxTime;
-            combo.TextOffset();
+            Proceedure(damage * dMultR);
             if (shealth <= 0)
-            {
                 killedByRang = true;
-            }
         }
+        
         damageCD = maxDamageCD;
+    }
+
+    public void TakeDamagePit(float damage)
+    {
+        shealth -= damage;
+    }
+
+    void Proceedure(float damage)
+    {
+        shealth -= damage;
+
+        //combo
+        combo.damageCount += damage;
+        combo.isActive = true;
+        combo.time = combo.maxTime;
+        combo.TextOffset();      
     }
 
     public void ExplosionDamage(float explDamage)
     {
-        if (damageCD <= 0)
-        {
-            shealth -= explDamage;
-        }
+        if (damageCD <= 0)       
+            shealth -= explDamage;      
 
         damageCD = maxDamageCD;
     }

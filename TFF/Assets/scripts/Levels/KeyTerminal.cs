@@ -1,56 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class KeyTerminal : MonoBehaviour
 {
-    public GameObject keyA;
-    public GameObject keyB;
+    public GameObject key;
     bool canInterract;
-    public bool terminalA;
-    public bool terminalB;
-    public Transform PosA;
-    public Transform PosB;
-    public GameObject DoorA;
-    public GameObject DoorB;
+    public bool terminal;
+    public Transform Pos;
+    public GameObject Door;
+
 
     void Update()
     {
-
-        if (canInterract == true)
+        if (canInterract)
         {
-            if (keyA.GetComponent<keys>().isHolded == true)
+            if (key.GetComponent<keys>().isHeld)
             {
-                terminalA = true;
-                keyA.GetComponent<keys>().isHolded = false;
-                keyA.transform.position = PosA.position;
-                DoorA.SetActive(false);              
-            }
-
-            if (keyB.GetComponent<keys>().isHolded == true)
-            {
-                terminalB = true;
-                keyB.GetComponent<keys>().isHolded = false;
-                keyB.transform.position = PosB.position;
-                DoorB.SetActive(false);
+                key.GetComponent<keys>().used = true;
+                terminal = true;
+                key.GetComponent<keys>().isHeld = false;
+                key.transform.position = Pos.position;
+                Door.SetActive(false);              
             }
         }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            canInterract = true;
-            keyA.GetComponent<keys>().used = true;
-        }
+        if (collision.gameObject.tag == "Player")       
+            canInterract = true;      
     }
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            canInterract = false;
-        }
+        if (collision.gameObject.tag == "Player")       
+            canInterract = false;      
     }
 }

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Experimental.Rendering.Universal;
@@ -51,10 +50,8 @@ public class WorldShatter : MonoBehaviour, IDamagable
 
     void Update()
     {
-        if (timeBtwAttack > 0)
-        {
-            timeBtwAttack -= Time.deltaTime;
-        }
+        if (timeBtwAttack > 0)      
+            timeBtwAttack -= Time.deltaTime;       
 
         if (health == healthChangeAmount[0] && sprite.sprite != spritePool[0])
         {
@@ -76,14 +73,10 @@ public class WorldShatter : MonoBehaviour, IDamagable
 
         if (health <= 0 && objectsToDisable[objectsToDisable.Length - 1].activeSelf)
         {
-            if (disableObjects)
-            {
-                for (int i = 0; i < objectsToDisable.Length; i++)
-                {
-                    objectsToDisable[i].SetActive(false);
-                }
-            }
-
+            if (disableObjects)            
+                for (int i = 0; i < objectsToDisable.Length; i++)             
+                    objectsToDisable[i].SetActive(false);                
+            
             if (!coroutineStarted)
             {
                 coroutineStarted = true;
@@ -91,16 +84,12 @@ public class WorldShatter : MonoBehaviour, IDamagable
             }
         }
 
-        if (cam.transform.position.y < yCamPos + cameraOffset && moveCamera)
-        {
-            cam.transform.position += Vector3.up * cameraSpeed * Time.deltaTime;
-        }
+        if (cam.transform.position.y < yCamPos + cameraOffset && moveCamera)      
+            cam.transform.position += Vector3.up * cameraSpeed * Time.deltaTime;       
 
-        if (canSkip && Input.GetKeyUp(KeyCode.N))
-        {
-            Application.Quit();
-            //SceneManager.LoadScene("Menu");
-        }
+        if (canSkip && Input.GetKeyUp(KeyCode.N))     
+            SceneManager.LoadScene("Menu");
+        
     }
 
     IEnumerator ShatterCoroutine()
@@ -144,5 +133,10 @@ public class WorldShatter : MonoBehaviour, IDamagable
     public void TakeDamageRanged(float damage)
     {
 
+    }
+
+    public void TakeDamagePit(float damage)
+    {
+        health -= damage;
     }
 }

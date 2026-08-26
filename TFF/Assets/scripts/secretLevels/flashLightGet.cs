@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class flashLightGet : MonoBehaviour
 {
     public flashLight script;
     public GameObject textS;
     public GameObject text;
+    public PlayableDirector timeline;
 
     bool canInterract;
 
@@ -13,6 +15,7 @@ public class flashLightGet : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Q) && canInterract)
         {
             script.hasFlash = true;
+            timeline.Play();
             Destroy(gameObject);
         }
     }

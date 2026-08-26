@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SnekaHealth : MonoBehaviour, IDamagable
@@ -83,60 +81,45 @@ public class SnekaHealth : MonoBehaviour, IDamagable
     public void TakeDamagePhysical(float damage)
     {
         if (damageCD <= 0)
-        {
-            health -= damage * dMultP;
-
-            //combo
-            combo.damageCount += damage * dMultP;
-            combo.isActive = true;
-            combo.time = combo.maxTime;
-            combo.TextOffset();
-
-            if (health <= 0)
-            {
+            if (health <= 0)            
                 killedByPhys = true;
-            }
-        }
-        damageCD = maxDamageCD;
 
-        if (transform.position.x > player.transform.position.x)
-        {
-            rb.velocity = (transform.position - player.transform.position) * knockbackForce;
-        }
-
-        if (transform.position.x < player.transform.position.x)
-        {
-            rb.velocity = -(player.transform.position - transform.position) * knockbackForce;
-        }
+        Proceedure(damage * dMultP);
     }
 
     public void TakeDamageRanged(float damage)
     {
         if (damageCD <= 0)
+            if (health <= 0)            
+                killedByRang = true;           
+        
+        Proceedure(damage * dMultR);     
+    }
+
+    public void TakeDamagePit(float damage)
+    {
+        health -= damage;
+    }
+
+    void Proceedure(float damage)
+    {
+        if (damageCD <= 0)
         {
-            health -= damage * dMultR;
+            health -= damage;
 
             //combo
-            combo.damageCount += damage * dMultR;
+            combo.damageCount += damage;
             combo.isActive = true;
             combo.time = combo.maxTime;
             combo.TextOffset();
 
-            if (health <= 0)
-            {
-                killedByRang = true;
-            }
         }
         damageCD = maxDamageCD;
 
         if (transform.position.x > player.transform.position.x)
-        {
             rb.velocity = (transform.position - player.transform.position) * knockbackForce;
-        }
 
         if (transform.position.x < player.transform.position.x)
-        {
             rb.velocity = -(player.transform.position - transform.position) * knockbackForce;
-        }
     }
 }

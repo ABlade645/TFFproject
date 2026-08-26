@@ -178,7 +178,7 @@ public class EndlessModeInstantiation : MonoBehaviour
             }            
         }
 
-        enemyCount = (GameObject.FindGameObjectsWithTag("Slime").Length + GameObject.FindGameObjectsWithTag("Sneka").Length);
+        enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
         if (canCount == true)
         {
             if (spawnCD > 0)

@@ -47,11 +47,12 @@ public class PlayerAnimation : MonoBehaviour
             moveInput = Input.GetAxis("Horizontal");
 
             if (primary.timeBeforeJump > 0)           
-                if (primary.isGrounded == true)              
+                if (primary.isGrounded == true)
+                {
                     isJumping = true;
                     anim.CrossFade("Player_Jump", 0, 0);
-                
-            
+                }
+                       
 
             if (isJumping == false)
             {

@@ -15,7 +15,7 @@ public class flashLightEvents : MonoBehaviour
     void Setup()
     {
         cursor = GameObject.FindGameObjectWithTag("Cursor");
-        door = GameObject.Find("doorBlue").GetComponent<keyDoor>();
+        //door = GameObject.Find("doorBlue").GetComponent<keyDoor>();
     }
 
     void Update()
@@ -29,10 +29,10 @@ public class flashLightEvents : MonoBehaviour
 
         if(hit)
         {
-            door.hasKey = true;
-            door.InfoC = Color.white;
-            door.InfoS = "A card is needed";
-            door.Info.SetActive(false);
+            //door.hasKey = true;
+            //door.InfoC = Color.white;
+            //door.InfoS = "A card is needed";
+            //door.Info.SetActive(false);
             hand.SetActive(false);
         }
           

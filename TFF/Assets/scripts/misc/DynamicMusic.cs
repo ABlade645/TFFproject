@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DynamicMusic : MonoBehaviour
@@ -9,7 +7,7 @@ public class DynamicMusic : MonoBehaviour
     public float speed;
     AudioSource calmVol;
     AudioSource dynamicVol;
-    public GameObject enemy;
+    GameObject enemy;
     
     void Start()
     {
@@ -19,22 +17,19 @@ public class DynamicMusic : MonoBehaviour
 
     void Update()
     {
-        if (enemy == null)
-        {
+        if(enemy == null)
             enemy = GameObject.FindGameObjectWithTag("Enemy");
-        }
-        
 
-        if (enemy != null)
-        {
-            calmVol.volume -= Time.deltaTime * speed;
-            dynamicVol.volume += Time.deltaTime * speed;
-        }
-
-        if (enemy == null)
+        if (enemy == null && dynamicVol.volume > 0)
         {
             calmVol.volume += Time.deltaTime * speed;
             dynamicVol.volume -= Time.deltaTime * speed;
         }
+
+        if (enemy != null && dynamicVol.volume < 1)
+        {
+            calmVol.volume -= Time.deltaTime * speed;
+            dynamicVol.volume += Time.deltaTime * speed;
+        }       
     }
 }

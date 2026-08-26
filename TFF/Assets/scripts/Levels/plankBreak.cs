@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class plankBreak : MonoBehaviour, IDamagable
@@ -18,28 +16,21 @@ public class plankBreak : MonoBehaviour, IDamagable
 
     void Start()
     {
-        if (slam == null)
-        {
+        if (slam == null)       
             slam = FindObjectOfType<Slam>();
-        }
+        
         quaternion = transform.localRotation;
     }
 
     void Update()
     {
-        if (health <= 0)
-        {
-            Break();
-        }
+        if (health <= 0)       
+            Break();      
 
-        if (slam.verticalMagnitude < -breakingMagnitude)
-        {
-            canBreak = true;
-        }
-        else
-        {
-            canBreak = false;
-        }
+        if (slam.verticalMagnitude < -breakingMagnitude)        
+            canBreak = true;       
+        else       
+            canBreak = false;       
     }
 
     public void TakeDamagePhysical(float damage)
@@ -52,6 +43,11 @@ public class plankBreak : MonoBehaviour, IDamagable
         health -= damage;
     }
 
+    public void TakeDamagePit(float damage)
+    {
+        health -= damage;
+    }
+
     public void Break()
     {
         Instantiate(prefab, transform.position, quaternion);
@@ -60,9 +56,7 @@ public class plankBreak : MonoBehaviour, IDamagable
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        if (coll.gameObject.CompareTag("Player") && canBreak)
-        {
-            Break();
-        }
+        if (coll.gameObject.CompareTag("Player") && canBreak)      
+            Break();      
     }
 }

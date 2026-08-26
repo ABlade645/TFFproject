@@ -29,10 +29,10 @@ public class DaHandBehavour : MonoBehaviour
 
             if (triggerDistance > vec.magnitude)
             {
-                door.hasKey = true;
-                door.InfoC = Color.white;
-                door.InfoS = "A card is needed";
-                door.Info.SetActive(false);
+                //door.hasKey = true;
+                //door.InfoC = Color.white;
+                //door.InfoS = "A card is needed";
+                //door.Info.SetActive(false);
                 gameObject.SetActive(false);
             }             
         }
@@ -40,7 +40,7 @@ public class DaHandBehavour : MonoBehaviour
 
     void Setup()
     {
-        door = GameObject.Find("doorBlue").GetComponent<keyDoor>();
+        //door = GameObject.Find("doorBlue").GetComponent<keyDoor>();
         target = GameObject.FindGameObjectWithTag("Player").transform.position;
     }    
 }

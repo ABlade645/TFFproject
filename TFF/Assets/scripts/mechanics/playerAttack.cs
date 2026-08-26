@@ -8,7 +8,7 @@ public class playerAttack : MonoBehaviour
     AudioSource source;
     float pitch;
 
-    private float timeBtwAttack;
+    float timeBtwAttack;
     public float startTimeBtwAttack;
     public float attackDistance;
     public float damage;
@@ -24,13 +24,6 @@ public class playerAttack : MonoBehaviour
     public Transform attackPos;
     public LayerMask whatIsEnemy;
     public LayerMask whatIsRock;
-
-    public float maxAttackTime;
-    float attackTime;
-    bool attacked;
-    bool attacking;
-    public bool isPlaying;
-    bool canStop;
 
     public float maxResetTime;
     float resetTime;
@@ -48,11 +41,12 @@ public class playerAttack : MonoBehaviour
 
     public bool isAttacking;
     bool canAttack;
+    bool makeSound;
 
     public GameObject hitMark;
+    public hitMarkPooling hitMarkPool;
     bool canSpawnHitMark;
     Collider2D[] enemiesToDamage;
-    int i;
     SettingsSave settings;
 
     void Start()
@@ -63,178 +57,132 @@ public class playerAttack : MonoBehaviour
         canAttack = true;
         canCharge = true;
         settings = FindObjectOfType<SettingsSave>();
+        hitMarkPool = FindObjectOfType<hitMarkPooling>();
     }
 
     void Update()
     {
-        if (hasRootBlade == true)
+        if (hasRootBlade)
         {
-            if (isAttacking == true && canAttack == true)
-            {
-                
-                attackTime = maxAttackTime;
-                timeBtwAttack = startTimeBtwAttack;
-                if (true)
-                {
-                    enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackDistance, whatIsEnemy);
-                    foreach (Collider2D o in enemiesToDamage)
-                    {
-                        enemy = o.GetComponent<Collider2D>();
-                        for (i = 0; i < enemiesToDamage.Length; i++)
-                        {
-                            //impact sound
-                            if (i == 0)
-                            {
-                                SoundImpact();
-                            }
-                        }
-
-                        //attack
-                        var damageable = o.GetComponent<IDamagable>();
-                        if (damageable != null)
-                        {
-                            damageable.TakeDamagePhysical(damage);
-                            RepeatingAction();
-                        }
-
-                        switch (enemy.gameObject.tag)
-                        {
-                            case "Stone":
-                                RepeatingAction();
-                                enemy.GetComponent<Stone>().rb.velocity = Vector2.down * 25;
-                                enemy.GetComponent<Stone>().damage *= 1.2f;
-                                enemy.GetComponent<Stone>().numberOfRic--;
-                                enemy.GetComponent<Stone>().comboParticle.Play();
-                                break;
-                            case "powerCore":
-                                enemy.GetComponent<LeverBool>().Activate();
-                                RepeatingAction();
-                                break;
-                        }
-                    }
-                }              
-            }
-            
-
-            if (attackTime > 0)
-            {
-                attackTime -= Time.deltaTime;
-                attacking = true;
-            }
-
-            if (attackTime <= 0)
-            {
-                attacking = false;
-            }
+            if (timeBtwAttack > 0)
+                timeBtwAttack -= Time.deltaTime;
 
             if (resetTime > 0)
-            {
                 resetTime -= Time.deltaTime;
-            }
 
-            if (resetTime <= 0)
-            {
+            if (resetTime <= 0 && slashIndex != 1)
                 slashIndex = 1;
-            }
 
-            if (hasRootBlade == true)
+            if (isAttacking && canAttack)
             {
-                //attack animation module
-                if (Input.GetKeyUp(settings.GetKeyFromCache("Weapon Attack")))
+                canAttack = false;
+                makeSound = true;
+
+                enemiesToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackDistance, whatIsEnemy);
+                foreach (Collider2D o in enemiesToDamage)
                 {
-                    SoundSwing();
+                    enemy = o.GetComponent<Collider2D>();
 
-                    Invoke("RemoveHitMark", 1);
-
-                    canStop = true;
-
-                    if (slashIndex == 1 && attackTime <= 0)
+                    //impact sound
+                    if (makeSound)
                     {
-                        if (strongAttack == true)
-                        {
+                        SoundImpact();
+                        makeSound = false;
+                    }
+
+                    //attack
+                    var damageable = o.GetComponent<IDamagable>();
+                    if (damageable != null)
+                    {
+                        damageable.TakeDamagePhysical(damage);
+                        RepeatingAction();
+                    }
+
+                    switch (enemy.gameObject.tag)
+                    {
+                        case "Stone":
+                            RepeatingAction();
+                            Stone stone = enemy.GetComponent<Stone>();
+                            stone.rb.velocity = Vector2.down * 25;
+                            stone.damage *= 1.2f;
+                            stone.numberOfRic--;
+                            stone.comboParticle.Play();
+                            break;
+                        case "powerCore":
+                            enemy.GetComponent<LeverBool>().Activate();
+                            RepeatingAction();
+                            break;
+                    }
+                }            
+            }
+
+            //attack animation module
+            if (Input.GetKeyUp(settings.GetKeyFromCache("Weapon Attack")) && timeBtwAttack <= 0)
+            {
+                timeBtwAttack = startTimeBtwAttack;
+                SoundSwing();
+
+                Invoke("RemoveHitMark", 1);
+
+                switch (slashIndex)
+                {
+                    case 1:
+                        if (strongAttack)
                             slash.CrossFade("strongSlash", 0);
-                            Invoke("StopAnim", 0.3f);
-                        }
                         else
-                        {
                             slash.CrossFade("Slash", 0);
-                        }
-                        Invoke("AttackIndex", 0.35f);
-                        
-                        resetTime = maxResetTime;
-                    }                    
-                
-                    if (slashIndex == 2 && attackTime <= 0)
-                    {
-                        if (strongAttack == true)
-                        {
+                        break;
+
+                    case 2:
+                        if (strongAttack)
                             slash.CrossFade("strongSlash2", 0);
-                            Invoke("StopAnim", 0.3f);
-                        }
                         else
-                        {
                             slash.CrossFade("Slash2", 0);
-                        }
-                        Invoke("AttackIndex", 0.35f);
-                        
-                        resetTime = maxResetTime;
-                    }
+                        break;
 
-                    if (slashIndex == 3 && attackTime <= 0)
-                    {
-                        if(strongAttack == true)
-                        {
+                    case 3:
+                        if (strongAttack)
                             slash.CrossFade("strongSlash3", 0);
-                            Invoke("StopAnim", 0.3f);
-                        }
                         else
-                        {
                             slash.CrossFade("Slash3", 0);
-                        }
-                        Invoke("AttackIndex", 0.35f);
-                       
-                        resetTime = maxResetTime;                        
-                    }                    
+                        break;
                 }
 
-                if (isPlaying == false && canStop)
-                {
-                    StopAnim();                    
-                }
+                canAttack = true;
 
-                //Strong attack hold----------------------------------------------------------------
-                if (Input.GetKey(settings.GetKeyFromCache("Weapon Attack")))
-                {
-                    holdTime -= Time.deltaTime;
+                Invoke("StopAnim", 0.3f);
+                Invoke("AttackIndex", 0.35f);
+                resetTime = maxResetTime;
+            }
 
-                    if (holdTime <= 0)
+            //Strong attack hold----------------------------------------------------------------
+            if (Input.GetKey(settings.GetKeyFromCache("Weapon Attack")))
+            {
+                holdTime -= Time.deltaTime;
+
+                if (holdTime <= 0)
+                {
+                    strongAttack = true;
+                    if (canCharge)
                     {
-                        strongAttack = true;
-                        if (canCharge)
-                        {
-                            strongCharge.CrossFade("StrongChargeBurst", 0);
-                            canCharge = false;
-                        }                        
+                        strongCharge.CrossFade("StrongChargeBurst", 0);
+                        canCharge = false;
                     }
-                }
-
-                if (!canCharge && Input.GetKeyUp(settings.GetKeyFromCache("Weapon Attack")))
-                {
-                    canCharge = true;
                 }
             }
-        }
-        timeBtwAttack -= Time.deltaTime;
+
+            if (!canCharge && Input.GetKeyUp(settings.GetKeyFromCache("Weapon Attack")))
+                canCharge = true;
+        }      
     }
 
     
     //Repeating Action reference-----------------------------------
     void RepeatingAction()
     {
-        GameObject.FindObjectOfType<hitMarkPooling>().SetHitmark();
-        timeBtwAttack = startTimeBtwAttack;
-        attackTime = 0;
+        hitMarkPool.SetHitmark();        
         canAttack = false;
+
         //hitmark
         if (canSpawnHitMark)
         {
@@ -247,21 +195,17 @@ public class playerAttack : MonoBehaviour
     //hitmark removal
     void RemoveHitMark()
     {
-        for (int i = 0; i < GameObject.FindGameObjectsWithTag("hitMark").Length; i++)
-        {
-            Destroy(GameObject.FindGameObjectsWithTag("hitMark")[i]);
-        }
+        for (int i = 0; i < GameObject.FindGameObjectsWithTag("hitMark").Length; i++)       
+            Destroy(GameObject.FindGameObjectsWithTag("hitMark")[i]);       
     }
 
     //attack variation
     void AttackIndex()
     {
         slashIndex++;
-        attackTime = maxAttackTime;
-        if (slashIndex > 3)
-        {
-            slashIndex = 1;
-        }
+
+        if (slashIndex > 3)       
+            slashIndex = 1;      
     }
 
     //animation
@@ -270,9 +214,8 @@ public class playerAttack : MonoBehaviour
         slash.CrossFade("Slash_idle", 0);
         strongAttack = false;
         holdTime = maxHoldTime;
-        canAttack = true;
+        
         canSpawnHitMark = true;
-        canStop = false;
     }
 
     //rootblade recieve (remove into a different script)
@@ -310,17 +253,6 @@ public class playerAttack : MonoBehaviour
         source.volume = 0.5f;
         source.Play();
     }
-
-    //save and load
-    public void Save()
-    {
-        //SaveSystem.SaveData(this);
-    }
-
-    public void Load()
-    {
-        //SaveSystem.LoadData();
-    }
 }
 
 //Attacking interface reference--------------------------------
@@ -328,5 +260,6 @@ public interface IDamagable
 {
     void TakeDamagePhysical(float damage);
     void TakeDamageRanged(float damage);
+    void TakeDamagePit(float damage);
 }
 

@@ -70,6 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91ffa1c0a9a86154794e65cc267d335f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxIntermissionTime: 0.5
   enemies: []
   borders: {fileID: 0}
   detector: {fileID: 0}

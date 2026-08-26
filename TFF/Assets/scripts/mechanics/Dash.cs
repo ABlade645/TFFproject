@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,15 +41,8 @@ public class Dash : MonoBehaviour
         fill = Stamina;
         Bar.fillAmount = fill / 100;
 
-        if (isDashing)
-        {
-            return;
-        }
-
-        if (player.GetComponent<playercontroller>().isGrounded == true)
-        {            
-            canDash = true;                  
-        }
+        if (player.GetComponent<playercontroller>().isGrounded == true && !canDash)                  
+            canDash = true;                      
 
         if (Stamina >= staminaUsage)
         {
@@ -60,26 +52,18 @@ public class Dash : MonoBehaviour
                 Stamina -= staminaUsage;
             }
 
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                variantTime = maxVariantTime;
-            }
-        }
+            if (Input.GetKeyDown(KeyCode.Mouse0))            
+                variantTime = maxVariantTime;           
+        }            
 
-        if (variantTime > 0)
-        {
-            variantTime -= Time.deltaTime;
-        }
+        if (variantTime > 0)       
+            variantTime -= Time.deltaTime;       
 
-        if (Stamina < 100)
-        {
-            Stamina += staminaRegain * Time.deltaTime;
-        }
+        if (Stamina < 100)      
+            Stamina += staminaRegain * Time.deltaTime;       
 
-        if (Stamina > 100)
-        {
-            Stamina = 100;
-        }
+        if (Stamina > 100)      
+            Stamina = 100;      
     }
     
     IEnumerator dash()
@@ -88,8 +72,9 @@ public class Dash : MonoBehaviour
         canDash = false;
         isDashing = true;
         trail.emitting = true;
-        float originalGravity = rb.gravityScale;
+        float gravity = rb.gravityScale;
         rb.gravityScale = 0;
+
         if (variantTime > 0)
         {
             rb.velocity = new Vector2(cursor.transform.position.x - player.transform.position.x, cursor.transform.position.y - player.transform.position.y).normalized * dashingPower;
@@ -97,20 +82,17 @@ public class Dash : MonoBehaviour
         }
         else
         {
-            if (player.GetComponent<playercontroller>().moveInput > 0)
-            {
+            if (player.GetComponent<playercontroller>().moveInput > 0)           
                 rb.velocity = new Vector2(1 * dashingPower, 0);
-            }
-
-            if (player.GetComponent<playercontroller>().moveInput < 0)
-            {
-                rb.velocity = new Vector2(-1 * dashingPower, 0);
-            }
+            
+            if (player.GetComponent<playercontroller>().moveInput < 0)            
+                rb.velocity = new Vector2(-1 * dashingPower, 0);           
         }
         yield return new WaitForSeconds(dashingTime);
-        rb.gravityScale = originalGravity;
+        rb.gravityScale = gravity;
         isDashing = false;
-        trail.emitting = false;      
+              
         yield return new WaitForSeconds(dashingCoolDown);
+        trail.emitting = false;
     }
 }

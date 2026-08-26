@@ -1,43 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Playables;
 
 public class LevelSelect : MonoBehaviour
 {
-    public GameObject info;
-    bool canEnter;
-    public string scene;
-    public PlayableDirector timelineUP;
-    public PlayableDirector timelineDOWN;
+    public Vector2 start;
+    public Vector2 end;
+    public Vector2 offset;
+    public float speed;
+    [HideInInspector]
+    public bool selected;
 
+    public RectTransform text;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void Start()
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            timelineUP.Play();
-            canEnter = true;
-            info.SetActive(true);
-        }
+        start = transform.position;
+        end = start + offset;
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void Up()
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            timelineDOWN.Play();
-            canEnter = false;
-            info.SetActive(false);
-        }
+        if(!selected)
+            selected = true;
+
+        if((Vector2)transform.position != end)
+            transform.position = Vector3.MoveTowards(transform.position, end, speed * Time.deltaTime);
     }
 
-    private void Update()
+    void Update()
     {
-        if (canEnter == true && Input.GetKeyDown(KeyCode.Q))
-        {
-            SceneManager.LoadScene(scene);
-        }
+        if (text.position != transform.position)
+            text.position = transform.position;
+
+
+        if (!selected && (Vector2)transform.position != start)
+            transform.position = Vector3.MoveTowards(transform.position, start, speed * Time.deltaTime);
     }
 }

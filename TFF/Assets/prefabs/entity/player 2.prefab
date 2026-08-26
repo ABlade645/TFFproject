@@ -705,7 +705,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 46ff5285bae89894ba37d4566d36e95b, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
@@ -938,7 +938,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 10507932df38bf047aa84e258e473afd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1432,6 +1432,7 @@ GameObject:
   - component: {fileID: 2414562356463455078}
   - component: {fileID: 4717282371930578416}
   - component: {fileID: 8963420460973011855}
+  - component: {fileID: 3249895927106265128}
   m_Layer: 7
   m_Name: player
   m_TagString: Player
@@ -1535,7 +1536,9 @@ MonoBehaviour:
   moveInput: 0
   JumpForce: 25
   speed: 0.3
-  drag: 0
+  acceleration: 0.05
+  additionalSpeed: 0
+  drag: 15
   Player: {fileID: 2921061833721623824}
   trail: {fileID: 6159289720367096910}
   particle: {fileID: 2139643069779543170}
@@ -1612,7 +1615,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 669afb0809101774782095778a79f6f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 2921061832493054296}
+  player:
+  - {fileID: 3842304241335314448}
+  - {fileID: 2921061833721623824}
+  - {fileID: 2921061832732311879}
   health: 100
   maxHealth: 100
   bar: {fileID: 0}
@@ -1677,13 +1683,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Bar: {fileID: 0}
   Stamina: 0
-  staminaRegain: 10
+  staminaRegain: 15
   staminaUsage: 20
   rb: {fileID: 2921061833721623827}
   canDash: 1
   isDashing: 0
   dashingPower: 35
-  dashingTime: 0.2
+  dashingTime: 0.1
   dashingCoolDown: 0.2
   maxVariantTime: 0.2
   variantTime: 0
@@ -1758,7 +1764,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2377eaac0b4161549a457b7a6a342c2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 2921061833721623824}
   cursor: {fileID: 2312897319407678403}
 --- !u!114 &1834653875124917122
 MonoBehaviour:
@@ -1846,6 +1851,20 @@ MonoBehaviour:
   changeY: 0
   time: 1
   script: {fileID: 2921061833721623826}
+--- !u!114 &3249895927106265128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2921061833721623824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 862c8f3581be73146aa6158bf6964cc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vector: {x: 0, y: 0}
+  maxInterval: 1
 --- !u!1 &2921061833742561058
 GameObject:
   m_ObjectHideFlags: 0
@@ -1951,7 +1970,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 10507932df38bf047aa84e258e473afd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1996,7 +2015,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   swing: {fileID: 8300000, guid: d1e26cd6477ba6242948ad240a2e3fcc, type: 3}
   impact: {fileID: 8300000, guid: 018344e2b0284fb49adcc82a3544d14a, type: 3}
-  startTimeBtwAttack: 0.1
+  startTimeBtwAttack: 0.4
   attackDistance: 1.3
   damage: 20
   sDamage: 1
@@ -2012,16 +2031,15 @@ MonoBehaviour:
   whatIsRock:
     serializedVersion: 2
     m_Bits: 1024
-  maxAttackTime: 0.01
-  isPlaying: 0
   maxResetTime: 1.5
   slashIndex: 1
   particle: {fileID: 0}
-  maxHoldTime: 0.5
+  maxHoldTime: 0.6
   strongAttack: 0
   strongCharge: {fileID: 137167093198363183}
   isAttacking: 0
   hitMark: {fileID: 0}
+  hitMarkPool: {fileID: 0}
 --- !u!82 &6745823970602346201
 AudioSource:
   m_ObjectHideFlags: 0
@@ -26938,7 +26956,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -21,6 +21,7 @@ public class Buttons : MonoBehaviour
 
     [Header("General")]
     public Vector2[] poses;
+    public LevelSelect[] levels;
     //Selection roll
     [HideInInspector]
     public Vector2 currentPos;
@@ -32,6 +33,7 @@ public class Buttons : MonoBehaviour
     public bool cameraToggle;
     public float maxCDtime;
     float CDtime;
+    GameObject selUI;
 
     SaveSystem save;
     levelSelectToMenu returnSc;
@@ -47,6 +49,8 @@ public class Buttons : MonoBehaviour
 
         currentPos = poses[0];
         currentIndex = 0;
+        selUI = GameObject.Find("Selection UI");
+        selUI.SetActive(false);
     }
 
     void Update()
@@ -88,6 +92,39 @@ public class Buttons : MonoBehaviour
                 currentPos = poses[currentIndex + 1];
                 currentIndex++;
             }
+
+            if((Vector2)camera.transform.position == poses[1] && !selUI.activeSelf)
+                selUI.SetActive(true);
+
+            if(Input.GetKeyDown(KeyCode.Escape) && selUI.activeSelf)
+                selUI.SetActive(false);
+
+            for (int i = 0; i < levels.Length; i++)
+            {
+                if (i == currentIndex - 1)
+                    if (i == levels.Length - 1)
+                        break;
+                    else
+                        i++;
+
+                levels[i].selected = false;
+            }
+        }
+
+        switch (currentIndex)
+        {
+            case 1:
+                levels[0].Up();
+
+                break;
+
+            case 2:
+                levels[1].Up();
+                break;
+
+            case 3:
+                levels[2].Up();
+                break;
         }
 
         if (Input.GetKeyDown(KeyCode.Return))

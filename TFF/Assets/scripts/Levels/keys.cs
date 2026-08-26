@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class keys : MonoBehaviour
 {
     public GameObject keyA;
     public Transform point;
-    public bool isHolded;
+    public bool isHeld;
     bool canPick;
 
     public bool used;
@@ -14,19 +12,15 @@ public class keys : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (canPick && !used) 
-        {
-            if (!isHolded)
-            {
+        if (canPick && !used)         
+            if (!isHeld)           
                 if (Input.GetKeyDown(KeyCode.Q))
                 {
-                    isHolded = true;
+                    isHeld = true;
                     canPick = false;
-                }
-            }
-        }
+                }                 
 
-        if (isHolded)
+        if (isHeld)
         {
             keyA.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
             keyA.transform.position = point.position;
@@ -36,9 +30,7 @@ public class keys : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            canPick = true;
-        }
+        if (collision.gameObject.tag == "Player")       
+            canPick = true;       
     }
 }

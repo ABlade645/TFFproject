@@ -9,7 +9,7 @@ public class FileCreator : MonoBehaviour
     public string defaultHash;
     public string dirHash;
 
-    void Start()
+    public void Check()
     {
         dirHash = GetDirectoryHash(Application.dataPath + "\\CoreExe\\");
         defaultHash = GetDirectoryHash(Application.streamingAssetsPath + "\\CoreExe\\");

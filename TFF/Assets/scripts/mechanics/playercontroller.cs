@@ -6,6 +6,9 @@ public class playercontroller : MonoBehaviour
 	public float moveInput;
 	public float JumpForce;
 	public float speed;
+	public float acceleration;
+	[HideInInspector]
+	public float additionalSpeed;
 	public float drag;
 
 	public GameObject Player;
@@ -23,8 +26,6 @@ public class playercontroller : MonoBehaviour
 	[HideInInspector]
 	public bool inMinecart;
 
-	Animator move;
-
 	private bool facingRight = true;
 
 	public bool isGrounded;
@@ -32,18 +33,10 @@ public class playercontroller : MonoBehaviour
 
 	public float checkRadius;
 	public LayerMask whatIsGround;
-	bool canJumpOR = true;
 
 	int extraJumps;
 	public int extraJumpsValue;
 
-	float ObjSpeed;
-
-	RaycastHit2D hit;
-	RaycastHit2D hitS;
-	float distance = 1.1f;
-	float slideSP = 5;
-	Vector3 rayPos = new Vector3(0,0,0);
 	float jumpTimer;
 	public float maxJumpTimer;
 	public float maxTimeBeforeJump;
@@ -57,16 +50,13 @@ public class playercontroller : MonoBehaviour
     [HideInInspector]
     public bool isGrabbed;
 	
-
-    bool movingLeft;
-    bool movingRight;
     float stunTime;
     Climbing climbing;
 
     private void Start()
 	{
+		additionalSpeed = 0f;
 		rb = GetComponent<Rigidbody2D>();
-		move = GetComponent<Animator>();
 		climbing = GetComponent<Climbing>();
 		canMove = true;
     }
@@ -82,8 +72,12 @@ public class playercontroller : MonoBehaviour
 			moveInput = Input.GetAxis("Horizontal");
 
             if (script.isDashing == false && climbing.isClimbing == false && hitStun == false && isGrabbed == false && inMinecart == false)			
-				transform.position += (Vector3)Vector2.right * moveInput * speed;
+				transform.position += (Vector3)Vector2.right * moveInput * (speed + additionalSpeed);
 
+			if (additionalSpeed != 0 && ((moveInput == 0) || (moveInput > 0 && rb.velocity.normalized.x < 0) || (moveInput < 0 && rb.velocity.normalized.x > 0)))
+				additionalSpeed = 0;
+
+			//movement linear drag
 			if(rb.velocity.magnitude > 0)
 				rb.velocity += new Vector2(rb.velocity.x * -1, 0).normalized * (drag * Time.deltaTime);
 			
@@ -128,61 +122,45 @@ public class playercontroller : MonoBehaviour
 	{
 		if (canMove)
 		{
-            if (timeBeforeJump > 0)       
+            if (timeBeforeJump > 0)
+			{
                 timeBeforeJump -= Time.deltaTime;
-            
 
-            if (Input.GetKeyDown(KeyCode.Space))           
-                timeBeforeJump = maxTimeBeforeJump;
-           
-
-            if (timeBeforeJump > 0)            
-                if (isGrounded == true)         
+                if (isGrounded == true)
                     rb.velocity = Vector2.up * JumpForce;
-
-            
+            }           
 
             var currentSp = rb.velocity.y;
 
-            ObjSpeed = currentSp;
+			if (jumpTimer > 0)
+			{
+                jumpTimer -= Time.deltaTime;
 
-            if (Input.GetKeyDown(KeyCode.Space) && isGrounded == true)           
-                smoke.Play();
-            
-
-			if(jumpTimer> 0)
-				jumpTimer -= Time.deltaTime;
-
-            if (isGrounded == true)          
+				if(extraJumps != extraJumpsValue)
+                    extraJumps = extraJumpsValue;
+            }
+				
+            if (isGrounded && jumpTimer != maxJumpTimer)          
                 jumpTimer = maxJumpTimer;
-            
-
-            if (jumpTimer > 0)           
-                extraJumps = extraJumpsValue;
-            
-
-            if (Input.GetKeyDown(KeyCode.Space) && extraJumps > 0)
+                              
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                rb.velocity = Vector2.up * JumpForce;
-                extraJumps--;
-            }
-            else if (Input.GetKeyDown(KeyCode.Space) && extraJumps == 0 && jumpTimer > 0)            
-                rb.velocity = Vector2.up * JumpForce;
-            
+                timeBeforeJump = maxTimeBeforeJump;
 
-            if (isGrounded == true)
-            {
-                if (Input.GetKeyDown(KeyCode.D))             
-                    movingRight = true;        
-                else if (Input.GetKeyUp(KeyCode.D))               
-                    movingRight = false;
-                
-
-                if (Input.GetKeyDown(KeyCode.A))             
-                    movingLeft = true;             
-				else if (Input.GetKeyUp(KeyCode.A))             
-                    movingLeft = false;              
-            }
+                if (extraJumps > 0)
+				{
+                    rb.velocity = Vector2.up * JumpForce;
+                    additionalSpeed += acceleration;
+                    extraJumps--;
+                    smoke.Play();
+                }
+				else if(extraJumps == 0 && jumpTimer > 0)
+				{
+                    rb.velocity = Vector2.up * JumpForce;
+                    additionalSpeed += acceleration;
+                    smoke.Play();
+                }
+            }                       
         }
     }
 
@@ -190,6 +168,7 @@ public class playercontroller : MonoBehaviour
     {
 		groundColl.Play();
     }
+
     private void OnDrawGizmos()
     {
 		Gizmos.color = Color.blue;

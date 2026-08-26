@@ -1,53 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Water : MonoBehaviour
 {
-    public Rigidbody2D rb;
+    public float boyancy;
+    public GameObject waterMask;
+    List<Rigidbody2D> rbs = new List<Rigidbody2D>();
 
-    public float speed;
-    public float force;
-
-    bool isSwimming;
-
-    public GameObject Mask;
-
-    // Start is called before the first frame update
-    void Start()
+    void OnTriggerEnter2D(Collider2D coll)
     {
-        rb.gravityScale = 5;
+        if(coll.GetComponent<Rigidbody2D>() != null)
+            rbs.Add(coll.GetComponent<Rigidbody2D>());
+
+        if(coll.gameObject.CompareTag("Player"))
+            waterMask.SetActive(true);       
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerExit2D(Collider2D coll)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            rb.gravityScale = 0.2f;
-            isSwimming = true;
-            Mask.SetActive(true);
-        }
+        if (coll.GetComponent<Rigidbody2D>() != null)
+            rbs.Remove(coll.GetComponent<Rigidbody2D>());
+
+        if (coll.gameObject.CompareTag("Player"))
+            waterMask.SetActive(false);
     }
 
-    public void OnTriggerExit2D(Collider2D collision)
+    void FixedUpdate()
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            rb.gravityScale = 5;
-            isSwimming = false;
-            Mask.SetActive(false);
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (isSwimming == true)
-        {
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                rb.velocity = new Vector2(rb.velocity.x, -10);
-            }
-        }
+        foreach (Rigidbody2D rb in rbs)
+            if(rb.velocity.y > 0)
+                rb.velocity += new Vector2(0, rb.velocity.y / boyancy) * Time.deltaTime;
+            else
+                rb.velocity -= new Vector2(0, rb.velocity.y / boyancy) * Time.deltaTime;
     }
 }

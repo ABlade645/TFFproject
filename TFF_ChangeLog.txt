@@ -1,6 +1,6 @@
-changelog v0.7.1.4
+changelog v0.7.1.5
 ------------------------------------
-- Fixed player jittering
-- Added new content to the secret level
-- Remade menu selection system
-- changed player movement to be affected by external forces
+- I don't really remember what I changed here
+- Mostly bug fixes
+- Partial sprite changes
+- First public build

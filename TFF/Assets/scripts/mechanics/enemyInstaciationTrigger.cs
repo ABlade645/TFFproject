@@ -1,49 +1,59 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class enemyInstaciationTrigger : MonoBehaviour
 {
-    public GameObject[] enemies;
+    float intermissionTime;
+    public float maxIntermissionTime;
+
+    public EnemyWavePackage[] enemies;
     public GameObject borders;
 
-    public GameObject detector;
+    int currentWave = 0;
+    BoxCollider2D coll;
 
-    public bool canInstanciate;
 
-    private void Start()
+    void Start()
     {
-        canInstanciate = true;
+        coll = gameObject.GetComponent<BoxCollider2D>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            if (canInstanciate)
-            {
-                foreach (GameObject enemy in enemies)
-                {
-                    enemy.GetComponent<enemyInstanciator>().Instanciate();
-                    canInstanciate = false;
-                }
-                Invoke("Check", 0.1f);
-            }
-            borders.SetActive(true);
-            
-        }
+        if (collision.gameObject.tag == "Player")                  
+            if (coll.enabled)
+                coll.enabled = false;    
     }
 
-    void Check()
+    bool Check()
     {
-        detector.GetComponent<enemyDetector>().Spawned();
+        return GameObject.FindGameObjectWithTag("Enemy") ? true : false;
+    }
+
+    void NextWave()
+    {
+        if(currentWave < enemies.Length)
+            enemies[currentWave].Spawn();
+        currentWave++;
     }
 
     private void Update()
     {
-        if (!GameObject.FindGameObjectWithTag("Enemy") && borders.activeSelf)
-        {
+        if (Check() && intermissionTime != maxIntermissionTime)
+            intermissionTime = maxIntermissionTime;
+        else if (!Check() && intermissionTime > 0)
+            intermissionTime -= Time.deltaTime;
+
+        if(currentWave < enemies.Length && !coll.enabled && !borders.activeSelf)
+            borders.SetActive(true);
+
+        if (!Check() && currentWave == enemies.Length + 1 && borders.activeSelf)
             borders.SetActive(false);
-        }
+
+        if (!Check() && currentWave < enemies.Length + 1 && !coll.enabled)
+            if (intermissionTime <= 0)                        
+                NextWave();            
+            
+        if(intermissionTime > 0)
+            intermissionTime -= Time.deltaTime;
     }
 }

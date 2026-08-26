@@ -9791,7 +9791,7 @@ MonoBehaviour:
   Direction: {fileID: 0}
   dirPos: {fileID: 0}
   attackPos: {fileID: 7404363206092657252}
-  attackDistance: 0.48
+  attackDistance: 0.78
   damage: 5
   forceModif: 1.1
   direction: 0

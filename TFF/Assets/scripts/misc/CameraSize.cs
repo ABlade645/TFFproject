@@ -1,12 +1,10 @@
 using Cinemachine;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class CameraSize : MonoBehaviour
 {
     public GameObject cinCam;
-    public GameObject Cam;
 
     public Slider slider;
     public float sizeMultiplier;

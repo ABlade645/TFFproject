@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class enemyDetector : MonoBehaviour
@@ -23,14 +21,7 @@ public class enemyDetector : MonoBehaviour
             Destroy(enemies[i]);
 
             if (i == enemies.Length)
-            {
-                enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            }
-        }
-
-        for (int i = 0; i < currentEncounter; i++)
-        {
-            triggers[i].GetComponent<enemyInstaciationTrigger>().canInstanciate = false;
+                enemies = GameObject.FindGameObjectsWithTag("Enemy");         
         }
     }
 

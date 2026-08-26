@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public GameObject player;
+    public GameObject[] player;
 
     public int health;
     public int maxHealth;
@@ -52,7 +50,8 @@ public class PlayerHealth : MonoBehaviour
         if (health <= 0)
         {
             deathScreen.DeathScreen();
-            Destroy(player);
+            for (int i = 0; i < player.Length; i++)
+                Destroy(player[i]);
         }
         fill = health;
         bar.fillAmount = fill / 100;

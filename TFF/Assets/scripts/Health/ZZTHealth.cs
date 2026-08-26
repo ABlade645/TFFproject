@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,20 +29,14 @@ public class ZZTHealth : MonoBehaviour, IDamagable
 
         bar.fillAmount = barAmount;
 
-        if (delayBar.fillAmount != bar.fillAmount && delayTime != maxDelayTime)
-        {
+        if (delayBar.fillAmount != bar.fillAmount && delayTime != maxDelayTime)       
             delayTime = maxDelayTime;
-        }
-
-        if (delayTime > 0)
-        {
+        
+        if (delayTime > 0)       
             delayTime -= Time.deltaTime;
-        }
-
-        if (delayTime <= 0)
-        {
-            delayBar.fillAmount -= (Time.deltaTime * delaySpeed) / 100;
-        }
+        
+        if (delayTime <= 0)       
+            delayBar.fillAmount -= (Time.deltaTime * delaySpeed) / 100;      
     }
 
     public void TakeDamagePhysical(float damage)
@@ -55,5 +47,10 @@ public class ZZTHealth : MonoBehaviour, IDamagable
     public void TakeDamageRanged(float damage)
     {
         health -= damage * multR;
+    }
+
+    public void TakeDamagePit(float damage)
+    {
+        health -= damage;
     }
 }

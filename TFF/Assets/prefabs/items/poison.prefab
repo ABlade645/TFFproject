@@ -4817,7 +4817,7 @@ GameObject:
   - component: {fileID: 1508204205816698236}
   - component: {fileID: 1597194343373059232}
   - component: {fileID: 3860808769688399522}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: poison
   m_TagString: Untagged
   m_Icon: {fileID: 0}

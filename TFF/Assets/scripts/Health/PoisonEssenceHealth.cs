@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PoisonEssenceHealth : MonoBehaviour, IDamagable
@@ -25,10 +23,8 @@ public class PoisonEssenceHealth : MonoBehaviour, IDamagable
 
         if (health <= 0)
         {
-            if (killedByPhys)
-            {
-                points.Kill();
-            }
+            if (killedByPhys)           
+                points.Kill();         
 
             Destroy(gameObject);
         }
@@ -37,15 +33,18 @@ public class PoisonEssenceHealth : MonoBehaviour, IDamagable
     public void TakeDamagePhysical(float damage)
     {
         health -= damage * DMultP;
-        if (health <= 0)
-        {
-            killedByPhys = true;
-        }
+        if (health <= 0)   
+            killedByPhys = true;       
     }
 
     public void TakeDamageRanged(float damage)
     {
         health -= damage * DMultR;
+    }
+
+    public void TakeDamagePit(float damage)
+    {
+        health -= damage;
     }
 
     void Checkup()

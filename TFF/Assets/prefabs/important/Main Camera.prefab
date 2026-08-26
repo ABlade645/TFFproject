@@ -605,7 +605,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cinCam: {fileID: 0}
-  Cam: {fileID: 0}
   slider: {fileID: 0}
   sizeMultiplier: 4
 --- !u!114 &6443352579133321239
@@ -2304,7 +2303,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 32767
+  m_SortingOrder: 3276
   m_TargetDisplay: 0
 --- !u!114 &2391750406870103284
 MonoBehaviour:
@@ -2623,6 +2622,26 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+    - target: {fileID: 6047280459022478907, guid: df9c7fccae14ddf4cb9272a6576b133d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+    - target: {fileID: 6047280459022478907, guid: df9c7fccae14ddf4cb9272a6576b133d, type: 3}
+      propertyPath: m_Color.a
+      value: 0.19607843
+      objectReference: {fileID: 0}
+    - target: {fileID: 6047280459022478907, guid: df9c7fccae14ddf4cb9272a6576b133d, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6047280459022478907, guid: df9c7fccae14ddf4cb9272a6576b133d, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6047280459022478907, guid: df9c7fccae14ddf4cb9272a6576b133d, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6047280459106384858, guid: df9c7fccae14ddf4cb9272a6576b133d, type: 3}
       propertyPath: m_Name
       value: Pause

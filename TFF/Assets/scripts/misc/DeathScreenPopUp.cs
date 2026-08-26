@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
@@ -15,10 +13,9 @@ public class DeathScreenPopUp : MonoBehaviour
 
     void Update()
     {
-        if(canSlowMotion && Time.timeScale > 0.05f)
-        {
-            Time.timeScale -= Time.unscaledDeltaTime * slowMotionSpeed;
-        }
+        if(canSlowMotion && Time.timeScale != 0)       
+            Time.timeScale = 0; //Time.timeScale -= Time.unscaledDeltaTime * slowMotionSpeed;
+        
 
         if (Time.timeScale < 0.05f)
         {
@@ -39,13 +36,13 @@ public class DeathScreenPopUp : MonoBehaviour
 
     public void ToMenu()
     {
-        SceneManager.LoadScene(toMenuString);
         Time.timeScale = 1;
+        SceneManager.LoadScene(toMenuString);        
     }
 
     public void Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);        
     }
 }

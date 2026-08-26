@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Playables;
-using System.Transactions;
 
 public class TextAnim : MonoBehaviour
 {
@@ -39,16 +37,14 @@ public class TextAnim : MonoBehaviour
             started = false;
         }
 
-        if (isSkipping == true)
-        {
+        if (isSkipping)       
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 isSkipping = false;
                 StopCoroutine(TextCoroutine());
-            }
-        }
+            }       
 
-        if (isFading == true && started == true)
+        if (isFading && started)
         {
             Invoke("Fade", lifetime);
             Invoke("SetActive", lifetime + 1);
@@ -66,10 +62,8 @@ public class TextAnim : MonoBehaviour
         text = TxTGameObject.text;
         TxTGameObject.text = "";
 
-        if (onStart == true)
-        {
-            Invoke("startCoroutine", delay);
-        }
+        if (onStart)     
+            Invoke("startCoroutine", delay);       
     }
 
     public void Begin()
@@ -87,10 +81,9 @@ public class TextAnim : MonoBehaviour
         foreach (char abc in text)
         {
             TxTGameObject.text += abc;
-            if (audio != null)
-            {
+            if (audio != null)           
                 audio.Play();
-            } 
+            
             yield return new WaitForSecondsRealtime(textSpeed);
         }
     }
